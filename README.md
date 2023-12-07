@@ -18,9 +18,9 @@ A version of the grep utility that searches files for regular expression pattern
 
 ### Example Calls
 ```
-java -jar grepy [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
-java -jar grepy.jar 10* inputFile1.txt
-java -jar grepy.jar -n samplenfa.dot -d sampledfa.dot 10* input1.txt -v
+java GrepyDriver [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
+java GrepyDriver 10* inputFile1.txt
+java GrepyDriver -n samplenfa.dot -d sampledfa.dot 10* input1.txt -v
 ```
 
 
