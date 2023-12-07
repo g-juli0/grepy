@@ -6,7 +6,7 @@ public class NFA extends Automaton {
         super(ft);
     }
     
-    public void create() {
+    public void build() {
         
     }
 }

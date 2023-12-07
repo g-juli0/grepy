@@ -6,7 +6,7 @@ public class DFA extends Automaton {
         super(ft);
     }
     
-    public void create() {
+    public void build() {
 
     }
 }
