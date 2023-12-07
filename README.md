@@ -19,7 +19,11 @@ A version of the grep utility that searches files for regular expression pattern
 ### Example Calls
 ```
 java GrepyDriver [-n NFA-FILE] [-d DFA-FILE] REGEX FILE
+```
+```
 java GrepyDriver 10* inputFile1.txt
+```
+```
 java GrepyDriver -n samplenfa.dot -d sampledfa.dot 10* input1.txt -v
 ```
 
