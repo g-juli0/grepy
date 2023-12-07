@@ -2,8 +2,11 @@
 
 public class DFA extends Automaton {
 
-    DFA(String inFile) {
-        super(inFile);
+    DFA(FiveTuple ft) {
+        super(ft);
     }
     
+    public void create() {
+
+    }
 }

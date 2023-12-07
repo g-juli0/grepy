@@ -1,9 +1,14 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/***
+ * FiveTuple class
+ * holds all data for Automata
+ */
 public class FiveTuple {
     
     // 5-Tuple attributes for DFA and NFA
@@ -122,5 +127,27 @@ public class FiveTuple {
     public void addAcceptState(int i) {
         String newAcceptState = this.getStates().get(i-1);
         this.getAcceptStates().add(newAcceptState);
+    }
+
+    /***
+     * toString function for FiveTuple object
+     * outputs formatted line for each element of the FiveTuple
+     */
+    public String toString() {
+        String output = "";
+
+        output += "States: " + this.getStates().toString() + "\n";
+        output += "Alphabet: " + this.getAlphabet().toString() + "\n";
+
+        output += "Delta: ";
+        for(String[] transition : this.getDelta()){
+            output += Arrays.toString(transition) + "\n\t";
+        }
+        output += "\n";
+
+        output += "Start State: " + this.getStart() + "\n";
+        output += "Accept States: " + this.getAcceptStates().toString() + "\n";
+
+        return output;
     }
 }

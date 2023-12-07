@@ -1,11 +1,12 @@
 
 
-public class Automaton {
+public abstract class Automaton {
 
     public FiveTuple five_tuple;
 
-    Automaton(String inFile) {
-        this.five_tuple = new FiveTuple(inFile);
+    Automaton(FiveTuple ft) {
+        this.five_tuple = ft;
     }
 
+    public abstract void create();
 }

@@ -2,8 +2,11 @@
 
 public class NFA extends Automaton {
 
-    NFA(String inFile) {
-        super(inFile);
+    NFA(FiveTuple ft) {
+        super(ft);
     }
     
+    public void create() {
+        
+    }
 }
