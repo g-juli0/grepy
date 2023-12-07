@@ -8,5 +8,5 @@ public abstract class Automaton {
         this.five_tuple = ft;
     }
 
-    public abstract void create();
+    public abstract void build();
 }
