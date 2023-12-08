@@ -73,7 +73,7 @@ public class FiveTuple {
      * adder function for list of states
      */
     public void addState() {
-        int num = this.getStates().size() + 1;
+        int num = this.getStates().size();
         this.getStates().add("q" + num);
     }
 
@@ -125,7 +125,7 @@ public class FiveTuple {
      * @param i index of existing state to be added to list of accepting states
      */
     public void addAcceptState(int i) {
-        String newAcceptState = this.getStates().get(i-1);
+        String newAcceptState = this.getStates().get(i);
         this.getAcceptStates().add(newAcceptState);
     }
 

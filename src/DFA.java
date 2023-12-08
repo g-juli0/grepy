@@ -2,8 +2,11 @@
 
 public class DFA extends Automaton {
 
-    DFA(FiveTuple ft) {
-        super(ft);
+    private FiveTuple nfaTuple;
+
+    DFA(FiveTuple dft, FiveTuple nft) {
+        super(dft);
+        this.nfaTuple = nft;
     }
     
     public void build() {
