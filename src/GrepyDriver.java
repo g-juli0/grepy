@@ -93,6 +93,7 @@ public class GrepyDriver {
 
             // create NFA
             NFA nfa = new NFA(new FiveTuple(call_data[3]), call_data[2]);
+            System.out.println(nfa.five_tuple.toString());
 
             // create DFA
             DFA dfa = new DFA(new FiveTuple(call_data[3]), nfa.getFiveTuple());

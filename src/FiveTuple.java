@@ -44,11 +44,15 @@ public class FiveTuple {
 
                 // for each character in the line
                 for (int i = 0; i < line.length(); i++) {
-                    String ch = Character.toString(line.charAt(i));
-
-                    // if not already in the alphabet, add the character
-                    if(!this.alphabet.contains(ch)) {
-                        this.alphabet.add(ch);
+                    char ch = line.charAt(i);
+                    // check if character (special symbols not part of the alphabet)
+                    if(Character.isDigit(ch) || Character.isAlphabetic(ch)) {
+                        // convert to String
+                        String c = Character.toString(ch);
+                        // if not already in the alphabet, add the character
+                        if(!this.alphabet.contains(c)) {
+                            this.alphabet.add(c);
+                        }
                     }
                 }
             }

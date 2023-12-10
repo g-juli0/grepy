@@ -11,15 +11,7 @@ public abstract class Automaton {
     public abstract void build();
 
     public boolean isValidChar(char ch) {
-        // check digits, uppercase, and lowercase
-        if(Character.isDigit(ch) || Character.isAlphabetic(ch)) {
-            return true;
-        // check special characters
-        } else if (ch == '(' || ch == ')' || ch == '*' || ch == '+') {
-            return true;
-        // any character remaining is invalid
-        } else {
-            return false;
-        }
+        // check digits, uppercase, lowercase, and accpted special characters
+        return (Character.isDigit(ch) || Character.isAlphabetic(ch) || ch == '(' || ch == ')' || ch == '*' || ch == '+');
     }
 }
