@@ -44,11 +44,15 @@ public class FiveTuple {
 
                 // for each character in the line
                 for (int i = 0; i < line.length(); i++) {
-                    String ch = Character.toString(line.charAt(i));
-
-                    // if not already in the alphabet, add the character
-                    if(!this.alphabet.contains(ch)) {
-                        this.alphabet.add(ch);
+                    char ch = line.charAt(i);
+                    // check if character (special symbols not part of the alphabet)
+                    if(Character.isDigit(ch) || Character.isAlphabetic(ch)) {
+                        // convert to String
+                        String c = Character.toString(ch);
+                        // if not already in the alphabet, add the character
+                        if(!this.alphabet.contains(c)) {
+                            this.alphabet.add(c);
+                        }
                     }
                 }
             }
@@ -73,7 +77,7 @@ public class FiveTuple {
      * adder function for list of states
      */
     public void addState() {
-        int num = this.getStates().size() + 1;
+        int num = this.getStates().size();
         this.getStates().add("q" + num);
     }
 
@@ -125,7 +129,7 @@ public class FiveTuple {
      * @param i index of existing state to be added to list of accepting states
      */
     public void addAcceptState(int i) {
-        String newAcceptState = this.getStates().get(i-1);
+        String newAcceptState = this.getStates().get(i);
         this.getAcceptStates().add(newAcceptState);
     }
 

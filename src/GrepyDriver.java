@@ -39,8 +39,9 @@ public class GrepyDriver {
     }
 
     public static void main(String[] args) throws Exception {
-        // args = [-n, NFAfile, -d, DFAfile, regex, inputFile, additional]
-        //System.out.println(Arrays.toString(args));
+        // args = [-n, NFAfile, -d, DFAfile, regex, inputFile, -v]
+        //                                                     -v is additional output flag
+        //                                                             (bonus: .png output)
 
         try {
 
@@ -91,8 +92,17 @@ public class GrepyDriver {
             }
 
             // create NFA
+            NFA nfa = new NFA(new FiveTuple(call_data[3]), call_data[2]);
+            System.out.println(nfa.five_tuple.toString());
 
             // create DFA
+            DFA dfa = new DFA(new FiveTuple(call_data[3]), nfa.getFiveTuple());
+
+            // test each line of file against NFA/DFA/Stack machine
+
+            // output NFA/DFA/Stack machine in .dot format
+
+            // bonus - graphviz to convert .dot to .png
 
             System.out.println(Arrays.toString(call_data));
 
