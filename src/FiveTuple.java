@@ -143,12 +143,11 @@ public class FiveTuple {
         output += "States: " + this.getStates().toString() + "\n";
         output += "Alphabet: " + this.getAlphabet().toString() + "\n";
 
-        output += "Delta: ";
+        output += "Delta:";
         for(String[] transition : this.getDelta()){
-            output += Arrays.toString(transition) + "\n\t";
+            output += "\t" + Arrays.toString(transition) + "\n";
         }
-        output += "\n";
-
+        
         output += "Start State: " + this.getStart() + "\n";
         output += "Accept States: " + this.getAcceptStates().toString() + "\n";
 
