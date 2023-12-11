@@ -65,8 +65,6 @@ public class DFA extends Automaton {
         // Breakdown CurState to find NFA States
         ArrayList<String> currentStates = getStates();
 
-        System.out.println(currentStates);
-
         for (int i = 0; i < currentStates.size(); i++) {
             String[] trans = {currentStates.get(i), "", ""};                 // Current NFA State
 

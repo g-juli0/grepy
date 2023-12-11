@@ -1,8 +1,10 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -135,6 +137,25 @@ public class GrepyDriver {
         }
     }
 
+    public static void convertToPNG(String dotFile) {
+        try {
+            File f = new File(dotFile); 
+            String arg1 = f.getAbsolutePath();
+            String arg2 = arg1.substring(0, arg1.indexOf(".")) + ".png"; 
+            String[] c = {"java", "-version", "dot", "-Tpng", arg1, "-o", arg2};
+            Process p = Runtime.getRuntime().exec(c); 
+            int err = p.waitFor();
+
+            System.out.println("PNG created.");
+        }
+        catch(IOException e1) {
+            System.out.println(e1);
+        }
+        catch(InterruptedException e2) {
+            System.out.println(e2);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         // args = [-n, NFAfile, -d, DFAfile, regex, inputFile, -v]
         //                                                     -v is additional output flag
@@ -151,6 +172,8 @@ public class GrepyDriver {
             String input = Arrays.toString(args);
             boolean nfaFlag = false;
             boolean dfaFlag = false;
+
+            System.out.println(input);
 
             // check each input flag and load call_data
 
@@ -204,6 +227,10 @@ public class GrepyDriver {
             convertToDOT(call_data[1], "DFA", dfa.five_tuple);
 
             // bonus - graphviz to convert .dot to .png
+            if(input.contains("-v")) {
+                convertToPNG("nfa.dot");
+                convertToPNG("dfa.dot");
+            }
 
             //System.out.println(Arrays.toString(call_data));
 
