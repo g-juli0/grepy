@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class GrepyDriver {
 
     // C:\Users\giann\Desktop\Java\grepy\bin>
-    // java --enable-preview GrepyDriver
+    // java --enable-preview GrepyDriver -n nfa.txt -d dfa.txt (1+0)*1 test1.txt
 
     static String[] call_data = new String[4];
     // 0 - NFA fileName
@@ -97,6 +97,7 @@ public class GrepyDriver {
 
             // create DFA
             DFA dfa = new DFA(new FiveTuple(call_data[3]), nfa.getFiveTuple());
+            System.out.println(dfa.five_tuple.toString());
 
             // test each line of file against NFA/DFA/Stack machine
 

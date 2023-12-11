@@ -204,7 +204,8 @@ public class NFA extends Automaton {
      */
     public void addState() {
         this.prevState = this.currentState++;
-        this.five_tuple.addState();
+        int num = this.five_tuple.getStates().size();
+        this.five_tuple.getStates().add("q" + num);
     }
 
     /**
@@ -222,7 +223,7 @@ public class NFA extends Automaton {
      * @param nextState int state transition ends at
      */
     public void addDelta(int startState, String ch, int nextState) {
-        this.five_tuple.addDelta(startState, ch, nextState);
+        this.five_tuple.addDelta("q"+startState, ch, "q"+nextState);
     }
 
     /**
