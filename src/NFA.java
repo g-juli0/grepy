@@ -14,7 +14,7 @@ public class NFA extends Automaton {
     private int loopIndex;
     private boolean loopFlag;
 
-    private String acceptMsg = "NFA created";
+    private String acceptMsg = "NFA created.";
     private String rejectMsg = "Error: invalid character";
 
     // constructor

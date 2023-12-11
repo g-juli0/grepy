@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class GrepyDriver {
+public class grepy {
 
     // C:\Users\giann\Desktop\Java\grepy\bin>
     // java --enable-preview GrepyDriver -n nfa.txt -d dfa.txt (1+0)*1 test1.txt
@@ -158,8 +158,7 @@ public class GrepyDriver {
 
     public static void main(String[] args) throws Exception {
         // args = [-n, NFAfile, -d, DFAfile, regex, inputFile, -v]
-        //                                                     -v is additional output flag
-        //                                                             (bonus: .png output)
+        //      -v is additional output flag (png)
 
         try {
 
@@ -173,10 +172,7 @@ public class GrepyDriver {
             boolean nfaFlag = false;
             boolean dfaFlag = false;
 
-            System.out.println(input);
-
             // check each input flag and load call_data
-
             // check for NFA (optional)
             if(input.contains("-n")) {
                 call_data[0] = args[1];
@@ -219,6 +215,10 @@ public class GrepyDriver {
             DFA dfa = new DFA(new FiveTuple(call_data[3]), nfa.getFiveTuple());
             System.out.println(dfa.five_tuple.toString());
 
+            // create Stack Machine
+            StackMachine sm = new StackMachine(new FourTuple(call_data[3]), nfa.five_tuple);
+            System.out.println(sm.four_tuple.toString());
+
             // test each line of file against NFA/DFA/Stack machine
             processTests(call_data[3], dfa.five_tuple);
 
@@ -232,10 +232,8 @@ public class GrepyDriver {
                 convertToPNG("dfa.dot");
             }
 
-            //System.out.println(Arrays.toString(call_data));
-
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /***
  * FiveTuple class
- * holds all data for Automata
+ * holds all data for NFA and DFA Automata
  */
 public class FiveTuple {
     

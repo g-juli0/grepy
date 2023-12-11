@@ -37,7 +37,7 @@ public class DFA extends Automaton {
         createErrorState();                                                                  
         addAcceptState();  // Add Accepting States
 
-        System.out.println("DFA created");
+        System.out.println("DFA created.");
     }
 
     public void helper() {
@@ -86,7 +86,6 @@ public class DFA extends Automaton {
     public ArrayList<String> getStates() {
         ArrayList<String> curStates = new ArrayList<String>();                          // List for States
         String states = currentState;
-        System.out.println(states);
 
         while (states.length() > 1) {
             for (int i = 1; i < states.length(); i++) {
