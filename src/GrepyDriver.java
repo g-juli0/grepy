@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -36,6 +37,41 @@ public class GrepyDriver {
     public static boolean verifyFile(String fileName) {
         File testFile = new File(fileName);
         return testFile.exists();
+    }
+
+    public static void processTests(String fileName, FiveTuple tuple) {
+        try {
+            FileInputStream fileInput = new FileInputStream(fileName);
+            Scanner input = new Scanner(fileInput);
+
+            while (input.hasNext()) {
+                String state = tuple.getStart();                                       // Set Start State
+
+                String line = input.nextLine();                                                // Grab Next Line
+                
+                for (int i = 0; i < line.length(); i++) {
+                    for (int j = 0; j < tuple.getDelta().size(); j++) {
+                        String[] temp = tuple.getDelta().get(j);
+                        
+                        if (temp[0].equals(state) && temp[1].equals(Character.toString(line.charAt(i)))) {
+                            state = temp[2];                                                // Update State
+                            break;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < tuple.getAcceptStates().size(); i++) {                   // Check Resulting State
+                    if (state.equals(tuple.getAcceptStates().get(i))) {
+                        System.out.println("Accepted: " + line);
+                    }
+                }
+            }
+
+            input.close();
+        } catch (FileNotFoundException ex) {
+            System.err.println("File not found.");
+            ex.printStackTrace();
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -100,12 +136,13 @@ public class GrepyDriver {
             System.out.println(dfa.five_tuple.toString());
 
             // test each line of file against NFA/DFA/Stack machine
+            processTests(call_data[3], dfa.five_tuple);
 
             // output NFA/DFA/Stack machine in .dot format
 
             // bonus - graphviz to convert .dot to .png
 
-            System.out.println(Arrays.toString(call_data));
+            //System.out.println(Arrays.toString(call_data));
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
