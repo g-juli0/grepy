@@ -69,23 +69,22 @@ public class FiveTuple {
      * getter function for list of states
      * @return List<String> of states
      */
-    public List<String> getStates() {
+    public ArrayList<String> getStates() {
         return this.states;
     }
 
     /***
      * adder function for list of states
      */
-    public void addState() {
-        int num = this.getStates().size();
-        this.getStates().add("q" + num);
+    public void addState(String state) {
+        this.getStates().add(state);
     }
 
     /***
      * getter function for list of alphabet characters
      * @return List<String> of aplhabet characters
      */
-    public List<String> getAlphabet() {
+    public ArrayList<String> getAlphabet() {
         return this.alphabet;
     }
 
@@ -93,7 +92,7 @@ public class FiveTuple {
      * getter function for list of delta transition functions
      * @return List<String[]> of delta transition functions in the form String[startState, inputSymbol, nextState]
      */
-    public List<String[]> getDelta() {
+    public ArrayList<String[]> getDelta() {
         return this.delta;
     }
 
@@ -103,8 +102,8 @@ public class FiveTuple {
      * @param inputSymbol String input symbol
      * @param nextState int next state after processing input symbol
      */
-    public void addDelta(int startState, String inputSymbol, int nextState) {
-        String[] transition = new String[] {"q"+startState, inputSymbol, "q"+nextState};
+    public void addDelta(String startState, String inputSymbol, String nextState) {
+        String[] transition = new String[] {startState, inputSymbol, nextState};
         this.getDelta().add(transition);
     }
 
@@ -120,7 +119,7 @@ public class FiveTuple {
      * getter function for list of accepting states
      * @return List<String> of all accepting states
      */
-    public List<String> getAcceptStates() {
+    public ArrayList<String> getAcceptStates() {
         return this.acceptStates;
     }
 
@@ -143,12 +142,11 @@ public class FiveTuple {
         output += "States: " + this.getStates().toString() + "\n";
         output += "Alphabet: " + this.getAlphabet().toString() + "\n";
 
-        output += "Delta: ";
+        output += "Delta:";
         for(String[] transition : this.getDelta()){
-            output += Arrays.toString(transition) + "\n\t";
+            output += "\t" + Arrays.toString(transition) + "\n";
         }
-        output += "\n";
-
+        
         output += "Start State: " + this.getStart() + "\n";
         output += "Accept States: " + this.getAcceptStates().toString() + "\n";
 
