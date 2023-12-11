@@ -55,8 +55,8 @@ a
 
 a+b*
 
-Ab
+ab
 
-Bba
+bba
 
-Bbab
+bbab
