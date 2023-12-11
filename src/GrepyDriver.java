@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -66,11 +68,70 @@ public class GrepyDriver {
                     }
                 }
             }
-
+            System.out.println();
             input.close();
         } catch (FileNotFoundException ex) {
             System.err.println("File not found.");
             ex.printStackTrace();
+        }
+    }
+
+    public static void convertToDOT(String fileName, String automaton, FiveTuple tuple) {
+
+        if (fileName == null || fileName.equals("")) {                                // Default File Name
+            fileName = automaton + "Graph.dot";
+        } else {                                                                        // Check for Extension
+            int lastIndex = fileName.lastIndexOf(".");
+
+            if (lastIndex == -1) {
+                fileName = fileName + ".dot";   
+            } else {
+                String sub = fileName.substring(lastIndex+1);
+
+                if (!(sub.equals(".dot"))) {
+                    fileName = fileName.substring(0, lastIndex) + ".dot";
+                } 
+            } 
+        }                                                                // Validate User Input
+
+        try {
+            File f = new File(fileName);
+
+            if (f.createNewFile()) {
+                System.out.println("File " + fileName + " created");
+            } else {
+                System.out.println("File " + fileName + " already exists. Overwritten.");
+            }
+
+            FileWriter writer = new FileWriter(f);
+
+            writer.write("digraph "                                                     // DOT Definition Start
+                + automaton + " {" 
+                + System.getProperty( "line.separator" )
+                + "\trankdir=LR"
+                + System.getProperty( "line.separator"));
+            
+            for(String state : tuple.getStates()) {
+                if(!(tuple.getAcceptStates().contains(state))) {
+                    writer.write("\t" + state + " [shape=circle] " + state + ";" + System.getProperty( "line.separator" ));
+                }
+            }
+
+            for (String accept : tuple.getAcceptStates()) {                              // Set Style for all Accept States
+                writer.write("\t" + accept + " [shape=doublecircle] " + accept + ";" + System.getProperty( "line.separator" ));
+            }
+
+            for (String[] trans : tuple.getDelta()) {
+                writer.write("\t" + trans[0] + " -> " + trans[2] + " [label=" + trans[1] + "];");
+                writer.write(System.getProperty( "line.separator" ));
+            }
+
+            writer.write("}");                                                          // DOT Definition End
+
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -139,6 +200,8 @@ public class GrepyDriver {
             processTests(call_data[3], dfa.five_tuple);
 
             // output NFA/DFA/Stack machine in .dot format
+            convertToDOT(call_data[0], "NFA", nfa.five_tuple);
+            convertToDOT(call_data[1], "DFA", dfa.five_tuple);
 
             // bonus - graphviz to convert .dot to .png
 
