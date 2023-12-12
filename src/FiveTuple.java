@@ -2,12 +2,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /***
  * FiveTuple class
- * holds all data for Automata
+ * holds all data for NFA and DFA Automata
  */
 public class FiveTuple {
     
@@ -60,14 +59,14 @@ public class FiveTuple {
             input.close();
 
         } catch (FileNotFoundException ex) {
-            System.out.println("File not found.");
+            System.err.println("File not found.");
             ex.printStackTrace();
         }
     }
 
     /***
      * getter function for list of states
-     * @return List<String> of states
+     * @return ArrayList<String> of states
      */
     public ArrayList<String> getStates() {
         return this.states;
@@ -82,7 +81,7 @@ public class FiveTuple {
 
     /***
      * getter function for list of alphabet characters
-     * @return List<String> of aplhabet characters
+     * @return ArrayList<String> of aplhabet characters
      */
     public ArrayList<String> getAlphabet() {
         return this.alphabet;
@@ -90,7 +89,7 @@ public class FiveTuple {
 
     /***
      * getter function for list of delta transition functions
-     * @return List<String[]> of delta transition functions in the form String[startState, inputSymbol, nextState]
+     * @return ArrayList<String> of delta transition functions in the form String[startState, inputSymbol, nextState]
      */
     public ArrayList<String[]> getDelta() {
         return this.delta;
@@ -117,7 +116,7 @@ public class FiveTuple {
 
     /***
      * getter function for list of accepting states
-     * @return List<String> of all accepting states
+     * @return ArrayList<String> of all accepting states
      */
     public ArrayList<String> getAcceptStates() {
         return this.acceptStates;

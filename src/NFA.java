@@ -14,10 +14,14 @@ public class NFA extends Automaton {
     private int loopIndex;
     private boolean loopFlag;
 
-    private String acceptMsg = "NFA created";
+    private String acceptMsg = "NFA created.";
     private String rejectMsg = "Error: invalid character";
 
-    // constructor
+    /**
+     * constructor for NFA object
+     * @param ft FiveTuple to be populated
+     * @param expr String expression used to determine language membership
+     */
     NFA(FiveTuple ft, String expr) {
         super(ft);
         this.expression = expr;
@@ -74,12 +78,12 @@ public class NFA extends Automaton {
                 System.out.println(rejectMsg);
             }
 
-            // update accepting states
+            // update accepting states and print confirmation message
             addAcceptState(this.currentState);
             System.out.println(acceptMsg);
 
         } else {
-            // update accepting states
+            // update accepting states and print confirmation message
             addAcceptState(this.currentState);
             System.out.println(acceptMsg);
         }
