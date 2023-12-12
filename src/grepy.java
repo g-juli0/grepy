@@ -1,24 +1,25 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class grepy {
 
-    // C:\Users\giann\Desktop\Java\grepy\bin>
-    // java --enable-preview GrepyDriver -n nfa.txt -d dfa.txt (1+0)*1 test1.txt
-
+    // static variable that holds file names and the regular expression
     static String[] call_data = new String[4];
     // 0 - NFA fileName
     // 1 - DFA fileName
     // 2 - regular expression
     // 3 - input fileName
 
+    /**
+     * verifies if all characters in the expression are legal
+     * @param exp String expression to check
+     * @return boolean true if no illegal symbols are found
+     */
     public static boolean verifyRegex(String exp) {
         for(int i = 0; i < exp.length(); i++) {
             char ch = exp.charAt(i);
@@ -38,38 +39,52 @@ public class grepy {
         return true;
     }
 
+    /**
+     * verifies that the provided file name is an existing file
+     * @param fileName String name of file to check
+     * @return true if file exists
+     */
     public static boolean verifyFile(String fileName) {
         File testFile = new File(fileName);
         return testFile.exists();
     }
 
+    /**
+     * tests each string of symbols in the input file against the DFA for language membership
+     * @param fileName String name of input file
+     * @param tuple FiveTuple to check strings against (NFA or DFA)
+     */
     public static void processTests(String fileName, FiveTuple tuple) {
         try {
             FileInputStream fileInput = new FileInputStream(fileName);
             Scanner input = new Scanner(fileInput);
 
             while (input.hasNext()) {
-                String state = tuple.getStart();                                       // Set Start State
-
-                String line = input.nextLine();                                                // Grab Next Line
+                // set starting state and read next line of symbols
+                String state = tuple.getStart();
+                String line = input.nextLine();
                 
+                // check each character against each delta state
                 for (int i = 0; i < line.length(); i++) {
                     for (int j = 0; j < tuple.getDelta().size(); j++) {
                         String[] temp = tuple.getDelta().get(j);
                         
+                        // if start state and input character match, 
                         if (temp[0].equals(state) && temp[1].equals(Character.toString(line.charAt(i)))) {
-                            state = temp[2];                                                // Update State
+                            state = temp[2]; // make transition, update current state
                             break;
                         }
                     }
                 }
 
-                for (int i = 0; i < tuple.getAcceptStates().size(); i++) {                   // Check Resulting State
+                // check state after all possible transitions are made
+                for (int i = 0; i < tuple.getAcceptStates().size(); i++) {
                     if (state.equals(tuple.getAcceptStates().get(i))) {
                         System.out.println("Accepted: " + line);
                     }
                 }
             }
+            // extra line padding for output
             System.out.println();
             input.close();
         } catch (FileNotFoundException ex) {
@@ -78,25 +93,35 @@ public class grepy {
         }
     }
 
+    /**
+     * converts digraph in txt file to a .dot file
+     * @param fileName String name of file to write NFA to
+     * @param automaton the type of automaton to be converted
+     * @param tuple the FiveTuple to be written in the graph
+     */
     public static void convertToDOT(String fileName, String automaton, FiveTuple tuple) {
 
-        if (fileName == null || fileName.equals("")) {                                // Default File Name
+        // give default file name if none specified
+        if (fileName == null || fileName.equals("")) {
             fileName = automaton + "Graph.dot";
-        } else {                                                                        // Check for Extension
+        } else {
+            // if provided a file name, check extension type
             int lastIndex = fileName.lastIndexOf(".");
 
+            // no extension
             if (lastIndex == -1) {
                 fileName = fileName + ".dot";   
             } else {
+                // replace extension
                 String sub = fileName.substring(lastIndex+1);
 
                 if (!(sub.equals(".dot"))) {
                     fileName = fileName.substring(0, lastIndex) + ".dot";
                 } 
             } 
-        }                                                                // Validate User Input
+        }
 
-        try {
+        try { // create or overwrite file to write to
             File f = new File(fileName);
 
             if (f.createNewFile()) {
@@ -107,61 +132,72 @@ public class grepy {
 
             FileWriter writer = new FileWriter(f);
 
-            writer.write("digraph "                                                     // DOT Definition Start
+            writer.write("digraph "
                 + automaton + " {" 
                 + System.getProperty( "line.separator" )
                 + "\trankdir=LR"
                 + System.getProperty( "line.separator"));
             
+            // define each state with shape and name
             for(String state : tuple.getStates()) {
                 if(!(tuple.getAcceptStates().contains(state))) {
                     writer.write("\t" + state + " [shape=circle] " + state + ";" + System.getProperty( "line.separator" ));
                 }
             }
 
-            for (String accept : tuple.getAcceptStates()) {                              // Set Style for all Accept States
+            // define each accepting state
+            for (String accept : tuple.getAcceptStates()) {
                 writer.write("\t" + accept + " [shape=doublecircle] " + accept + ";" + System.getProperty( "line.separator" ));
             }
 
+            // define all transitions with labels
             for (String[] trans : tuple.getDelta()) {
                 writer.write("\t" + trans[0] + " -> " + trans[2] + " [label=" + trans[1] + "];");
                 writer.write(System.getProperty( "line.separator" ));
             }
 
-            writer.write("}");                                                          // DOT Definition End
-
+            writer.write("}");
             writer.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
+    /**
+     * convers .dot file to png
+     * @param dotFile String file name of .dot file to be converted
+     */
     public static void convertToPNG(String dotFile) {
         try {
             File f = new File(dotFile); 
-            String arg1 = f.getAbsolutePath();
+            String arg1 = f.getAbsolutePath(); // get full file path
             String arg2 = arg1.substring(0, arg1.indexOf(".")) + ".png"; 
+            // define command
             String[] c = {"java", "-version", "dot", "-Tpng", arg1, "-o", arg2};
             Process p = Runtime.getRuntime().exec(c); 
-            int err = p.waitFor();
+            int err = p.waitFor(); // run and wait foe execution
 
             System.out.println("PNG created.");
         }
-        catch(IOException e1) {
-            System.out.println(e1);
+        catch(IOException ex1) {
+            ex1.printStackTrace();
         }
-        catch(InterruptedException e2) {
-            System.out.println(e2);
+        catch(InterruptedException ex2) {
+            ex2.printStackTrace();
         }
     }
 
+    /**
+     * main function
+     * @param args String[] input arguments at runtime
+     * @throws Exception catches general exeptions
+     */
     public static void main(String[] args) throws Exception {
         // args = [-n, NFAfile, -d, DFAfile, regex, inputFile, -v]
         //      -v is additional output flag (png)
 
         try {
-
             // check for minimum amount of arguments for computation
             if(args.length < 2) {
                 throw new IllegalArgumentException("Not enough vaild arguments. Enter a regular expression and an input file.");

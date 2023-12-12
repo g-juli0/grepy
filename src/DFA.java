@@ -198,15 +198,19 @@ public class DFA extends Automaton {
     }
 
     /**
-     * 
-     * @param startState
-     * @param ch
-     * @param endState
+     * adder function for delta transitions
+     * @param startState String state that transition starts in
+     * @param ch String character input
+     * @param endState String state that transition ends in
      */
     public void addDelta(String startState, String ch, String endState) {
         this.five_tuple.addDelta(startState, ch, endState);
     }
 
+    /**
+     * adder function for list of states
+     * @param state
+     */
     public void addState(String state) {
         this.five_tuple.addState(state);
     }

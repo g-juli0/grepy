@@ -239,6 +239,7 @@ public class NFA extends Automaton {
         out:
         for (int i = 0; i < this.expression.length(); i++) {
             if (this.expression.charAt(i) == '(') {
+                // loop until closing paren detected
                 for (int j = i; j < this.expression.length(); j++) {
                     if (this.expression.charAt(j) == ')') {  
                         if (j != this.expression.length()) { // if last character
@@ -250,7 +251,7 @@ public class NFA extends Automaton {
                             }
                             break out;
 
-                        } else {
+                        } else { // otherwise, treat substring as updated expression
                             substring = this.expression.substring(i + 1, j);
                             break out;
                         }            
