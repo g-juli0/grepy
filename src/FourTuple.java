@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /***
@@ -11,11 +9,16 @@ import java.util.Scanner;
  */
 public class FourTuple {
     
+    // 4-Tuple atributes for stack machine
     private ArrayList<String> stackAlphabet = new ArrayList<String>();      // Gamma - stack alphabet
     private ArrayList<String> inputAlphabet = new ArrayList<String>();      // Sigma - input alphabet
-    private String initial = "q0";                                           // initial stack symbol S
+    private String initial = "q0";                                          // initial stack symbol S
     private ArrayList<String[]> delta = new ArrayList<String[]>();          // delta transitions
 
+    /**
+     * constructor for FourTuple
+     * @param inFile fine to read alphabet from
+     */
     public FourTuple(String inFile) {
         readAlphabet(inFile);
     }
@@ -26,7 +29,6 @@ public class FourTuple {
      */
     private void readAlphabet(String inFile) {
         try {
-
             Scanner input = new Scanner(new File(inFile));
 
             // while there is still content to read from the file
@@ -56,27 +58,53 @@ public class FourTuple {
         }
     }
 
+    /**
+     * getter function for input alphabet
+     * @return ArrayList<String> of input alphabet characters
+     */
     public ArrayList<String> getInputAlphabet() {
         return this.inputAlphabet;
     }
 
+    /**
+     * getter function for stack alphabet symbols
+     * @return ArrayList<String> of stack alphabet symbols
+     */
     public ArrayList<String> getStackAlphabet() {
         return this.stackAlphabet;
     }
 
+    /**
+     * adder function for stack alphabet symbols
+     * @param s
+     */
     public void addStackSymbol(String s) {
         this.stackAlphabet.add(s);
     }
 
+    /**
+     * getter function for list of delta transition functions
+     * @return ArrayList<String[]> of delta transition functions in the form String[read, pop, push]
+     */
     public ArrayList<String[]> getDelta() {
         return this.delta;
     }
 
+    /**
+     * adder function for delta transitions
+     * @param read String that is read
+     * @param pop String that is popped off the stack
+     * @param push String that is pushed to the stack
+     */
     public void addDelta(String read, String pop, String push) {
         String[] transition = {read, pop, push};
         this.delta.add(transition);
     }
 
+    /**
+     * toString function for FourTuple
+     * outputs formatted table of all stack moves
+     */
     public String toString() {
         String output = "+-------+-------+-------+\n" + 
                         "| read\t| pop\t| push\t|\n" +
